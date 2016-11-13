@@ -42,5 +42,13 @@ spring-oxm提供一种抽象，用于支持那些具体实现了对象-XML映射
 
 spring-jms包含对消息的处理（产生和消费）。自Spring Framework 4.1始，它还提供与spring-message的集成。
 
+##Web
+这层包含了spring-web,spring-webmvc,spring-websocket模块。
 
+spring-web提供基本的web功能(如multipart文件上传)以及使用Servlet listener 和基于web的应用上下文来初始化IOC 容器。它还包含一个http 客户端，以及Spring remoting support的与web相关的部分。
+
+spring-webmvc包含了对于MVC和REST web service的实现。它用于清晰地分离实际业务代码和前端展示代码，并能与Spring框架地其余部分完美融合。
+
+##Test
+利用这个模块，可以通过Junit和TestNG对spring组件进行单元测试和集成测试。它提供对于Spring ApplicationContext的持续载入和缓存。也提供mock object来帮助你独立地测试代码。
 
