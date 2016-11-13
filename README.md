@@ -52,3 +52,23 @@ spring-webmvc包含了对于MVC和REST web service的实现。它用于清晰地
 ##Test
 利用这个模块，可以通过Junit和TestNG对spring组件进行单元测试和集成测试。它提供对于Spring ApplicationContext的持续载入和缓存。也提供mock object来帮助你独立地测试代码。
 
+#Usage scenarios
+Spring的这些特征，使得它有极广的应用领域，从资源受限的嵌入式应用到企业级应用。
+
+下图是完全使用Spring框架的企业级应用的架构。
+![](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/images/overview-full.png)
+Spring的声明式事务管理功能，使得web 应用完全地“事务化（？）”，类似于EJB容器的事务管理。所有业务逻辑都能使用POJO表达，借助IOC容器管理。
+额外的服务支持邮件发送和校验，这些都独立于web层。Spring ORM可以帮助开发者轻松集成JPA或Hibernate。例如，当使用Hibernate时，你依然可以保持原来的映射文件和标准的Hibernate配置。Form Controller实现将web层和业务逻辑的无缝衔接，移除了类似于ActionForm这类东西，不需要显示将Http参数传回到业务端。
+ 
+ 下图展示了Spring中间层与第三方web框架的结合使用。
+ ![](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/images/overview-thirdparty-web.png)
+ 当需要和已在使用中的web框架结合时，Spring也能表现优秀，它完全支持你只使用其中部分模块。现有的前端框架都能与之集成，并使用其事务特征。你仅仅需要使用ApplicationContext来组装业务逻辑，并使用WebApplicationContext来与web层集成。
+ 
+ 下图展示了在远端调用已有代码的场景。
+ ![](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/images/overview-remoting.png)
+ 你可以使用Spring的Hessian，Rmi，HttpInvokerProxyFactoryBean 等类型轻松搭建web service。
+ 
+ 下图：EJBs - Wrapping existing POJOs（i have no idea）
+ ![](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/images/overview-ejb.png)
+ Spring框架也提供一种用于 Enterprise JavaBeans 的access and abstraction layer，可以使你重用已有的POJO，并将之包含于无状态的bean中，实现可扩展的，能容错的，需要declarative security的web 应用。
+
