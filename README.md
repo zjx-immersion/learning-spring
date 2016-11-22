@@ -72,3 +72,7 @@ Spring的声明式事务管理功能，使得web 应用完全地“事务化（�
  ![](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/images/overview-ejb.png)
  Spring框架也提供一种用于 Enterprise JavaBeans 的access and abstraction layer，可以使你重用已有的POJO，并将之包含于无状态的bean中，实现可扩展的，能容错的，需要declarative security的web 应用。
 
+##依赖管理和命名惯例
+依赖管理包括定位资源，保存资源，并将之加入到classpath。
+
+依赖分为direct和inderect。inderect就是那些transitive的库，它们才是管理的难点。推荐使用成熟的依赖管理工具来使用spring的类库。
