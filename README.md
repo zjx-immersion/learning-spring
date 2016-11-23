@@ -2,7 +2,7 @@
 
 这是一篇笔记，内容来自[spring framework 5.0.0.M2的官方文档](http://docs.spring.io/spring/docs/5.0.0.M2/spring-framework-reference/htmlsingle/)
 
-# 简介
+# 1.简介
 spring可以帮助你仅仅通过POJO来构建软件，它来负责框架搭建，各对象间的依赖，而你仅仅需要描述每个对象的职责。
 
 spring包含一整套的软件构建工具，同时也是高度模块化的，你可以只选择你所需要的功能。
@@ -52,7 +52,7 @@ spring-webmvc包含了对于MVC和REST web service的实现。它用于清晰地
 ##Test
 利用这个模块，可以通过Junit和TestNG对spring组件进行单元测试和集成测试。它提供对于Spring ApplicationContext的持续载入和缓存。也提供mock object来帮助你独立地测试代码。
 
-#Usage scenarios
+# 2.Usage scenarios
 Spring的这些特征，使得它有极广的应用领域，从资源受限的嵌入式应用到企业级应用。
 
 下图是完全使用Spring框架的企业级应用的架构。
@@ -76,3 +76,38 @@ Spring的声明式事务管理功能，使得web 应用完全地“事务化（�
 依赖管理包括定位资源，保存资源，并将之加入到classpath。
 
 依赖分为direct和inderect。inderect就是那些transitive的库，它们才是管理的难点。推荐使用成熟的依赖管理工具来使用spring的类库。
+
+spring库的命名一般是spring-module-version.
+
+##日志记录
+spring框架中的所有模块都通过Jakarta Commons Logging API (JCL)来使用日志。JCL是一种公用接口，可与很多日志库结合，这很好地维持了向后兼容性。
+
+spring内置了JCL的官方实现---commons-logging.它声称能够自动发现可用日志库。但这个功能很鸡肋，所以总需要用其它更好的日志库。
+
+因此，就遇到一个“老的不去，新的不来”的问题。你需要把commons-logging从原来的依赖路径中移除，然后再导入新的日志库依赖。
+
+spring和log4j的结合非常方便，就和在其它项目中使用log4j一样，推荐使用。
+
+spring 应用常常运行在某个应用容器中，而应用容器本身也提供了JCL的实现。这就会导致一些冲突。
+
+# 3.核心技术
+
+spring的核心包括IOC,AOP。
+
+## ioc容器
+
+###简介
+what is ioc？一个对象描述自己的依赖，而容器通过注入依赖来构造对象。所谓依赖也就是类的属性，构造函数的参数，或者工厂方法的参数。
+注入依赖，所以ioc又称DI。而原本应当由使用者控制对象的构造，现在由容器代而为之。故又称ioc。
+
+核心库：org.springframework.beans ， org.springframework.context
+
+核心类：
+1.BeanFactory提供对框架配置和基本功能。
+2.ApplicationContext扩展BeanFactory，加入了简单的AOP。
+3.更特殊的，与应用类型相关的，有WebApplicationContext。
+
+what is bean？bean就是对象，是那些已经构造好的，组装完成的，或者是由容器管理的对象。
+Beans以及它们的依赖，都能在配置信息元数据中找到。
+
+
