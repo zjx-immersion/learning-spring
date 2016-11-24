@@ -110,4 +110,70 @@ what is ioc？一个对象描述自己的依赖，而容器通过注入依赖来
 what is bean？bean就是对象，是那些已经构造好的，组装完成的，或者是由容器管理的对象。
 Beans以及它们的依赖，都能在配置信息元数据中找到。
 
+###什么是容器
+接口org.springframework.context.ApplicationContext代表的是IOC容器，并由它负责实例化，配置，组装beans。
+
+容器需要获取信息，来指示它该如何操作众多beans。这些信息被称为配置元数据，以多种形式存在，如XML，java注解，java code。你用它们来组装你的应用，表示各个对象间的依赖。
+
+ApplicationContext的常用实现 : [ClassPathXmlApplicationContext](http://docs.spring.io/spring-framework/docs/5.0.0.M3/javadoc-api/org/springframework/context/support/ClassPathXmlApplicationContext.html) ,[ FileSystemXmlApplicationContext](http://docs.spring.io/spring-framework/docs/5.0.0.M3/javadoc-api/org/springframework/context/support/FileSystemXmlApplicationContext.html)
+
+为了实例化容器，编写代码不是必须的。例如[ Section 3.15.4, “Convenient ApplicationContext instantiation for web applications”](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/#context-create)。或是使用[Spring Tool Suite](https://spring.io/tools/sts)
+
+**Spring IOC Container**
+![IOC Container](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/images/container-magic.png)
+
+###配置容器
+
+元数据的形式可以是：
+1.xml
+2.[Annotation-based configuration](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/#beans-annotation-config)
+3.[Java-based configuration](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/#beans-java)
+
+容器要管理什么？那就是**bean**。
+xml中用<beans>来包含<bean>,注解中用@Configuration来包含@Bean。
+
+**那么beans常常是哪些对象呢？应用中的所有对象都是bean吗？**
+想一想，容器是帮助你构建应用的，也就说，它作用于应用启动时，将一些基础对象关联。
+如果某些对象是运行时，才能生成的，那当然就无法由容器来管理。
+所以由容器来管理的对象应当是构成业务逻辑的框架型对象，可能是DAO，服务层对象，Struts Action这种表示层对象，Hibernate SeesionFactories这种基础架构对象，JMS Queues。它们的共同点是能在程序运行前就知道它们的生成时机。
+而更细粒度的领域对象，比如从由数据库读取信息后构造的对象，则不是由容器管理。尽管如此，结合AspectJ，你还是能在容器外配置这些对象。
+
+
+>&lt;?xml version="1.0" encoding="UTF-8"?>
+&lt;beans xmlns="http://www.springframework.org/schema/beans"
+   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+>    
+    &lt;bean id="..." class="...">
+        &lt;!-- collaborators and configuration for this bean go here -->
+    &lt;/bean>
+    &lt;bean id="..." class="...">
+        &lt;!-- collaborators and configuration for this bean go here -->
+    &lt;/bean>
+    &lt;!-- more bean definitions go here -->
+>    
+&lt;/beans>
+
+<bean>标签的具体含义，见[dependencies](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/#beans-dependencies)
+
+有了这样的xml文件之后,就可以构造容器了.容器可以加载多个xml.通常，一个XML就代表一个模块。
+>ApplicationContext context =
+     new ClassPathXmlApplicationContext(new String[] {"services.xml", "daos.xml"});
+
+###使用容器
+使用ApplicationContext的`T getBean(String name, Class<T> requiredType)`获取bean。
+**然而，你压根就别想用这个方法。最最正确的使用方式就是，别再你的代码里显示地控制这些bean，把它们交给容器吧！**
+举个栗子，web框架和spring结合，仅仅是通过ioc容器来管理controller和JSF-managed beans。
+
+###bean概观
+让我们从配置bean的细节，来一步步了解bean。
+一个bean不外乎包括以下几方面：
+1.全称限定类名：它将是哪个类的对象
+2.说明它在容器中的行为：生命周期，作用域，回调
+3.依赖：引用其它bean
+4.对象初始化所需参数：例如一个线程池的初始大小
+
+####bean的标识
+bean可以有多个标识，也可以没有标识（[inner beans](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/#beans-inner-beans) ，[autowiring collaborators](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/#beans-factory-autowire)）。
 
