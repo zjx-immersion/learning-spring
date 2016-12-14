@@ -177,3 +177,17 @@ xml中用<beans>来包含<bean>,注解中用@Configuration来包含@Bean。
 ####bean的标识
 bean可以有多个标识，也可以没有标识（[inner beans](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/#beans-inner-beans) ，[autowiring collaborators](http://docs.spring.io/spring/docs/5.0.0.M3/spring-framework-reference/htmlsingle/#beans-factory-autowire)）。
 
+###bean的构造方式
+bean可以通过构造函数或者工厂方法进行构造.
+
+##依赖
+一个完整的应用由多个对象构成，它们之间存在着各种依赖关系。Spring能够管理beans间的依赖关系，从而描述一个完整的应用。
+
+###DI
+有两种注入方式，它们也可以结合使用。
+1.Constructor-based
+ Spring推荐的方式，因为它将应用组件实现为immutable object，并且用户得到的对象是构造完全的（不包含空属性）。
+ 同时，构造函数可以作为一种重构提醒，如果它包含过多参数，则表明其责任太多，需要进行关注点分离。
+ 
+2.setter-based DI
+
