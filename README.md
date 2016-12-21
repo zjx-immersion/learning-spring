@@ -225,3 +225,49 @@ bean可以通过构造函数或者工厂方法进行构造.
 bean的定义，实际上只是一个配方，用来说明该怎么实例化一个特定对象。
 默认情况下，scope=singleton，即每个容器只许实例化一个对象。
 
+###singleton
+同一份bean定义只产生一个bean。
+与GOF的单例模式不同：同一个class只有一个实例。
+用于无状态的bean。
+
+###prototype
+同一份bean定义会产生多个bean。
+用于有状态的bean。
+类似于java的new。
+
+###web-scope
+request,session,application,websocket
+
+###当作用域小的bean注入到作用域大的bean中时，需使用代理<aop:scoped-proxy/>
+
+###Annotation
+@Required
+@Autowired
+@Primary
+@Qualfier
+这些注解只控制注入过程,依然需要xml来描述bean defination.
+
+###only Annotation
+如果想只使用注解，Spring也是支持的。它能自动扫描classPath，检测候选component。
+这些候选component是通过注解在代码中进行标识的。
+
+###Annotation and XML
+Annotation-centric
+XML-centric
+
+##Environment
+环境的意思可能是产品的不同阶段，不如在开发，测试和部署时，环境是不同的。
+Environment包含两个关键对象：profiles and properties
+
+###profile
+profile就是一群bean definition。Envirionment控制它们何时生效，来应对不同环境下的产品部署。
+profile就是帮助切换这些active bean definition。
+1.首先在bean definition上标记它属于哪些profile
+2.在不同环境下激活不同的profile（可以同时激活多个profile）
+
+###property
+可以通过环境配置改变各种property source加载的优先级（System，environment...）。
+在配置中可通过占位符来获取property。
+
+#Resources
+
